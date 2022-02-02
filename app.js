@@ -4,15 +4,32 @@ let inputBar = document.getElementById('inputBar');
 let collectionList = document.getElementById('collectionList');
 let submitBtn = document.getElementById('submitBtn');
 let ClearBtn = document.getElementById('ClearBtn');
+let confirmBtn = document.getElementById('confirmBtn');
+let updatedInputBar = document.getElementById('updatedInputBar');
+var Index = 0;
 
 submitBtn.addEventListener('click', (e) => {
-    let quote = inputBar.value;
-    addQuote(quote);
-    MapQuotes();
 
+    if (inputBar.value != '') {
+        let quote = inputBar.value;
+        addQuote(quote);
+        MapQuotes();
+
+    } else {
+        alert("please fill the feild")
+    }
 
     e.preventDefault();
 });
+
+confirmBtn.addEventListener('click', (e) => {
+    if(updatedInputBar.value == ''){
+        MapQuotes();
+    }else{
+        UpdateQuote(Index, updatedInputBar.value);
+        MapQuotes();
+    }
+} )
 
 
 
@@ -20,13 +37,13 @@ function MapQuotes() {
     collectionList.innerHTML = "";
 
     for (i = 0; i < arrayQuotes.length; i++) {
-        collectionList.innerHTML += `<div class="quote-style">` + arrayQuotes[i] + ` <button index="` + i + `" class="del-btn btn-style">X</button></div>`;
+        collectionList.innerHTML += `<div class="quote-style">` + `<p class = "set">${arrayQuotes[i]}</p>` + ` <button index="` + i + `" class="del-btn waves-effect waves-light btn">DELETE</button> <button id="updateButton"><a class="waves-effect waves-light btn modal-trigger" href="#modal1">UPDATE</a></button> </div>`;
     }
     inputBar.value = ''
 }
 
-collectionList.addEventListener('click' , (e) => {
-    if(e.target.classList.contains('del-btn')){
+collectionList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('del-btn')) {
         let index = e.target.getAttribute("index");
         DeleteQuote(+index);
         MapQuotes()
@@ -38,21 +55,15 @@ collectionList.addEventListener('click' , (e) => {
 
 
 ClearBtn.addEventListener('click', () => {
-    collectionList.remove()
+    arrayQuotes = [];
+    MapQuotes();
+
 })
 
 
 
 
 //UI FUCNTIONS
-
-
-
-
-
-
-
-
 
 
 //Base Functions
@@ -72,7 +83,7 @@ function DeleteQuote(index) {
     for (let i = 0; i < arrayQuotes.length; i++) {
         if (i == index) {
             // Kharab
-            console.log("kashif");
+            // console.log("kashif");
         } else {
             // Sahi
             newArr.push(arrayQuotes[i]);
